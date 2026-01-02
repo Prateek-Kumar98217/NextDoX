@@ -2,6 +2,7 @@
 "use server";
 
 import { eq } from "drizzle-orm";
+import { revalidatePath } from "next/cache";
 import { db } from "@/db/drizzle";
 import { userTable } from "@/db/schema";
 import { userType } from "@/types/user";
@@ -26,4 +27,11 @@ export const addUser = async (userData: userType) => {
 export const getUserByEmail = async(email: string) =>{
     const user = await db.select().from(userTable).where(eq(userTable.email, email)).limit(1);
     return user[0];
+}
+
+export const deleteUserByEmail = async(email: string) =>{
+    const user= await getUserByEmail(email);
+    if(!user) return;
+    await db.delete(userTable).where(eq(userTable.email, email));
+    revalidatePath("/");
 }
