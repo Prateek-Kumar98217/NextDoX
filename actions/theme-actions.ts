@@ -1,9 +1,10 @@
-import { createClient } from "@/lib/supabase/client";
+"use server";
+
+import { createClient } from "@/lib/supabase/server";
 import { Theme } from "@/types/theme.types";
 
-const supabase = createClient();
-
 export const fetchThemesByOwner = async (ownerId: string) => {
+    const supabase = await createClient();
     const { data, error } = await supabase
         .from("themes")
         .select("*")
@@ -17,9 +18,11 @@ export const fetchThemesByOwner = async (ownerId: string) => {
 };
 
 export const createTheme = async (theme: Omit<Theme, "id" | "created_at">) => {
+    const supabase = await createClient();
     const { data, error } = await supabase
         .from("themes")
         .insert(theme)
+        .select()
         .single();
     if(error) {
         console.error("Error creating theme:", error);
@@ -29,10 +32,12 @@ export const createTheme = async (theme: Omit<Theme, "id" | "created_at">) => {
 };
 
 export const updateTheme = async (themeId: string, updates: Partial<Theme>) => {
+    const supabase = await createClient();
     const { data, error } = await supabase
         .from("themes")
         .update(updates)
         .eq("id", themeId)
+        .select()
         .single();
     if(error) {
         console.error("Error updating theme:", error);
@@ -42,11 +47,11 @@ export const updateTheme = async (themeId: string, updates: Partial<Theme>) => {
 };
 
 export const deleteTheme = async (themeId: string) => {
+    const supabase = await createClient();
     const { error } = await supabase
         .from("themes")
         .delete()
         .eq("id", themeId)
-        .single();
     if(error) {
         console.error("Error deleting theme:", error);
         return null;

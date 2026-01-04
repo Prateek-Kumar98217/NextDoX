@@ -1,9 +1,10 @@
-import { createClient } from "@/lib/supabase/client";
+"use server";
+
+import { createClient } from "@/lib/supabase/server";
 import { Project } from "@/types/project.types";
 
-const supabase=createClient();
-
 export const fetchProjectsByOwner = async (ownerId: string) => {
+    const supabase= await createClient();
     const { data, error } = await supabase
         .from("projects")
         .select("*")
@@ -17,9 +18,11 @@ export const fetchProjectsByOwner = async (ownerId: string) => {
 };
 
 export const createProject = async (project: Omit<Project, "id" | "created_at">) => {
+    const supabase= await createClient();
     const { data, error } = await supabase
         .from("projects")
         .insert(project)
+        .select()
         .single();
     if(error) {
         console.error("Error creating project:", error);
@@ -29,10 +32,12 @@ export const createProject = async (project: Omit<Project, "id" | "created_at">)
 };
 
 export const updateProject = async (projectId: string, updates: Partial<Project>) => {
+    const supabase= await createClient();
     const { data, error } = await supabase
         .from("projects")
         .update(updates)
         .eq("id", projectId)
+        .select()
         .single();
     if(error) {
         console.error("Error updating project:", error);
@@ -42,11 +47,11 @@ export const updateProject = async (projectId: string, updates: Partial<Project>
 }
 
 export const deleteProject = async (projectId: string) => {
+    const supabase= await createClient();
     const { error } = await supabase
         .from("projects")
         .delete()
         .eq("id", projectId)
-        .single();
     if(error) {
         console.error("Error deleting project:", error);
         return null;

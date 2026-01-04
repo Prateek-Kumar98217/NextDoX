@@ -1,11 +1,12 @@
-import { createClient } from "@/lib/supabase/client";
-import { User } from "@/types/user.types";
+"use server";
 
-const supabase = createClient();
+import { createClient } from "@/lib/supabase/server";
+import { Profile } from "@/types/profile.types";
 
 export const fetchUserProfile = async (userId: string) => {
+    const supabase = await createClient();
     const { data, error } = await supabase
-        .from("users")
+        .from("profiles")
         .select("*")
         .eq("id", userId)
         .single();
@@ -13,28 +14,30 @@ export const fetchUserProfile = async (userId: string) => {
         console.error("Error fetching user profile:", error);
         return null;
     }
-    return data as User;
+    return data as Profile;
 };
 
-export const updateUserProfile = async (userId: string, updates: Partial<User>) => {
+export const updateUserProfile = async (userId: string, updates: Partial<Profile>) => {
+    const supabase = await createClient();
     const { data, error } = await supabase
-        .from("users")
+        .from("profiles")
         .update(updates)
         .eq("id", userId)
+        .select()
         .single();
     if(error) {
         console.error("Error updating user profile:", error);
         return null;
     }
-    return data as User;
+    return data as Profile;
 }
 
 export const deleteUserProfile = async (userId: string) => {
+    const supabase = await createClient();
     const { error } = await supabase
-        .from("users")
+        .from("profiles")
         .delete()
-        .eq("id", userId)
-        .single();
+        .eq("id", userId);
     if(error) {
         console.error("Error deleting user profile:", error);
         return null;
