@@ -1,4 +1,4 @@
-import { Palette, Home, UserRound, ClipboardPen, Settings } from "lucide-react";
+import { Palette, Home, UserRound, Folders, Settings } from "lucide-react";
 
 // Menu items.
 export const items = [
@@ -13,14 +13,14 @@ export const items = [
     icon: UserRound,
   },
   {
-    title: "Themes",
-    url: "/theme",
-    icon: Palette,
+    title: "Projects",
+    url: "/projects",
+    icon: Folders,
   },
   {
-    title: "Canvas",
-    url: "/canvas",
-    icon: ClipboardPen,
+    title: "Themes",
+    url: "/themes",
+    icon: Palette,
   },
   {
     title: "Settings",
