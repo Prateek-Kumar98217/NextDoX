@@ -5,3 +5,4 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 -Switch from contest api to global state management with zustand.
 -Smoothen out authentication workflow a bit.
 -Add google authentication as well.
+-Should we go for soft updates for all tables, and hard delete all user data if a user deletes account?
