@@ -3,12 +3,15 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase/client";
+import { redirect } from "next/navigation";
 
 interface AuthContextType {
   user: User | null;
   loading: boolean;
+  signInWithEmailPassword: (email: string, password: string) => Promise<void>;
   signInWithGithub: () => Promise<void>;
   signOut: () => Promise<void>;
+  signUp: (email: string, password: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -50,6 +53,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return () => subscription.unsubscribe();
   }, []);
 
+  const signInWithEmailPassword = async (email: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) {
+      console.error(
+        "Error signing in with email and password: ",
+        error.message
+      );
+    }
+    redirect(`${window.location.origin}/`);
+  };
+
   const signInWithGithub = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "github",
@@ -67,14 +84,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     if (error) {
       console.error("Error while signing out: ", error.message);
     }
-    console.log("succesfully signied out");
+  };
+
+  const signUp = async (email: string, password: string) => {
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/`,
+      },
+    });
+    if (error) {
+      console.error(
+        "Error signing up with email and password: ",
+        error.message
+      );
+    }
   };
 
   const value: AuthContextType = {
     user,
     loading,
+    signInWithEmailPassword,
     signInWithGithub,
     signOut,
+    signUp,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
