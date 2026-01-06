@@ -1,3 +1,5 @@
+import { ProfileTestForm } from "@/components/form";
+
 export default function Home() {
   return (
     <main className="flex flex-col justify-center items-center max-w-full">
@@ -5,6 +7,7 @@ export default function Home() {
       <p>
         Your one stop solution to project management and planning for solo devs
       </p>
+      <ProfileTestForm />
     </main>
   );
 }
