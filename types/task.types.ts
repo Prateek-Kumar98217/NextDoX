@@ -1,12 +1,5 @@
+import { Database } from "@/types/database.types";
 
-export type Task = {
-    id: string;
-    created_at: string;
-    project_id: string;
-    title: string;
-    description?: string;
-    status: 'backlog' | 'pending' | 'in-progress' | 'completed';
-    completed_at?: string;
-    commit_hash?: string;
-    rank: number;
-}
+export type TaskRow = Database["public"]["Tables"]["tasks"]["Row"];
+export type TaskInsert = Database["public"]["Tables"]["tasks"]["Insert"];
+export type TaskUpdate = Database["public"]["Tables"]["tasks"]["Update"];

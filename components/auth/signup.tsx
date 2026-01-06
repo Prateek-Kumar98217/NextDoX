@@ -1,5 +1,5 @@
 "use client";
-//signup function is not working
+
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@/contexts/auth-context";

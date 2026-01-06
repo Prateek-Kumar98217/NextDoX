@@ -1,8 +1,5 @@
+import { Database } from "@/types/database.types";
 
-export type Project = {
-    id: string;
-    created_at: string;
-    owner_id: string;
-    title: string;
-    description?: string;
-}
+export type ProjectRow = Database["public"]["Tables"]["projects"]["Row"];
+export type ProjectInsert = Database["public"]["Tables"]["projects"]["Insert"];
+export type ProjectUpdate = Database["public"]["Tables"]["projects"]["Update"];
