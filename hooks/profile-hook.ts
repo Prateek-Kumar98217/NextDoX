@@ -2,13 +2,16 @@ import { fetchUserProfile } from "@/actions/profile-actions";
 import { ProfileRow } from "@/types/profile.types";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase/client";
-import { RealtimePostgresChangesPayload } from "@supabase/realtime-js/dist/module/RealtimeChannel";
 
 export function useUserProfile(userId: string | null) {
   const [profile, setProfile] = useState<ProfileRow | null>(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    if (!userId) return;
+    if (!userId) {
+      setProfile(null);
+      setLoading(false);
+      return;
+    }
     const getInitalProfile = async () => {
       const data = await fetchUserProfile(userId);
       setProfile(data);
@@ -16,7 +19,7 @@ export function useUserProfile(userId: string | null) {
     };
     getInitalProfile();
 
-    const supbsciption = supabase
+    const channel = supabase
       .channel(`public:profiles:id=eq.${userId}`)
       .on(
         "postgres_changes",
@@ -26,14 +29,14 @@ export function useUserProfile(userId: string | null) {
           table: "profiles",
           filter: `id=eq.${userId}`,
         },
-        (payload: RealtimePostgresChangesPayload<ProfileRow>) => {
+        (payload) => {
           setProfile(payload.new as ProfileRow);
         }
       )
       .subscribe();
 
     return () => {
-      supbsciption.unsubscribe();
+      supabase.removeChannel(channel);
     };
   }, [userId]);
 

@@ -17,6 +17,20 @@ export const fetchThemesByOwner = async (ownerId: string) => {
   return data as ThemeRow[];
 };
 
+export const fetchThemeById = async (themeId: string) => {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("themes")
+    .select("*")
+    .eq("id", themeId)
+    .single();
+  if (error) {
+    console.error("Error fetching the required theme data: ", error.message);
+    return null;
+  }
+  return data as ThemeRow;
+};
+
 export const createTheme = async (theme: ThemeInsert) => {
   const supabase = await createClient();
   const { data, error } = await supabase
