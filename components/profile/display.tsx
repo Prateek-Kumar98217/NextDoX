@@ -16,11 +16,33 @@ export const ProfileDisplay = () => {
           <div id="username">{profile?.username ?? "User"}</div>
           <div id="email">{profile?.email ?? "User Email"}</div>
           <div id="dev_type">{profile?.dev_type ?? "User Dev Type"}</div>
-          <div id="contact_links">{profile?.urls ?? "User Urls"}</div>
+          <div id="contact_links">
+            {profile?.urls?.length ? (
+              <ul>
+                {profile.urls.map((url, index) => {
+                  return (
+                    <li key={index + 1}>
+                      <a href={url}>{url}</a>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              "No contact links given"
+            )}
+          </div>
         </div>
       </section>
       <section id="skills-crarousle-infinite">
-        {profile?.skills ?? "User Skills"}
+        {profile?.skills?.length ? (
+          <ul>
+            {profile.skills.map((url, index) => {
+              return <li key={index + 1}>{url}</li>;
+            })}
+          </ul>
+        ) : (
+          "No skills given"
+        )}
       </section>
       <section id="stats: projects and tasks">
         Nothing to show here.(at the moment)

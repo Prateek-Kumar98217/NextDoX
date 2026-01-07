@@ -46,9 +46,9 @@ export type Database = {
           dev_type: string | null;
           email: string | null;
           id: string;
-          skills: string[] | null;
+          skills: string[];
           updated_at: string;
-          urls: string[] | null;
+          urls: string[];
           username: string | null;
         };
         Insert: {
@@ -57,9 +57,9 @@ export type Database = {
           dev_type?: string | null;
           email?: string | null;
           id?: string;
-          skills?: string[] | null;
+          skills?: string[];
           updated_at?: string;
-          urls?: string[] | null;
+          urls?: string[];
           username?: string | null;
         };
         Update: {
@@ -68,9 +68,9 @@ export type Database = {
           dev_type?: string | null;
           email?: string | null;
           id?: string;
-          skills?: string[] | null;
+          skills?: string[];
           updated_at?: string;
-          urls?: string[] | null;
+          urls?: string[];
           username?: string | null;
         };
         Relationships: [];

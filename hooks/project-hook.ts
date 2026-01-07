@@ -8,7 +8,7 @@ import { ProjectRow } from "@/types/project.types";
 import { supabase } from "@/lib/supabase/client";
 import { useState, useEffect } from "react";
 
-export function useUserThemes(ownerId: string | null) {
+export function useUserProjects(ownerId: string | null) {
   const [projectList, setProjectList] = useState<ProjectRow[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -60,7 +60,7 @@ export function useUserThemes(ownerId: string | null) {
   return { projectList, loading };
 }
 
-export function useTheme(projectId: string | null) {
+export function useProject(projectId: string | null) {
   const [project, setProject] = useState<ProjectRow | null>(null);
   const [loading, setLoading] = useState(true);
 
