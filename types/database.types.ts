@@ -43,51 +43,66 @@ export type Database = {
         Row: {
           avatar_url: string | null;
           created_at: string;
+          dev_type: string | null;
           email: string | null;
           id: string;
+          skills: string[] | null;
           updated_at: string;
+          urls: string[] | null;
           username: string | null;
         };
         Insert: {
           avatar_url?: string | null;
           created_at?: string;
+          dev_type?: string | null;
           email?: string | null;
           id?: string;
+          skills?: string[] | null;
           updated_at?: string;
+          urls?: string[] | null;
           username?: string | null;
         };
         Update: {
           avatar_url?: string | null;
           created_at?: string;
+          dev_type?: string | null;
           email?: string | null;
           id?: string;
+          skills?: string[] | null;
           updated_at?: string;
+          urls?: string[] | null;
           username?: string | null;
         };
         Relationships: [];
       };
       projects: {
         Row: {
+          closed_at: string | null;
           created_at: string;
           description: string | null;
           id: string;
           owner_id: string;
+          status: string;
           title: string;
           updated_at: string;
         };
         Insert: {
+          closed_at?: string | null;
           created_at?: string;
           description?: string | null;
           id?: string;
           owner_id?: string;
+          status?: string;
           title: string;
           updated_at?: string;
         };
         Update: {
+          closed_at?: string | null;
           created_at?: string;
           description?: string | null;
           id?: string;
           owner_id?: string;
+          status?: string;
           title?: string;
           updated_at?: string;
         };
@@ -108,6 +123,7 @@ export type Database = {
           created_at: string;
           description: string | null;
           id: string;
+          owner_id: string;
           project_id: string;
           rank: number | null;
           status: string | null;
@@ -120,6 +136,7 @@ export type Database = {
           created_at?: string;
           description?: string | null;
           id?: string;
+          owner_id?: string;
           project_id?: string;
           rank?: number | null;
           status?: string | null;
@@ -132,6 +149,7 @@ export type Database = {
           created_at?: string;
           description?: string | null;
           id?: string;
+          owner_id?: string;
           project_id?: string;
           rank?: number | null;
           status?: string | null;
@@ -139,6 +157,13 @@ export type Database = {
           updated_at?: string;
         };
         Relationships: [
+          {
+            foreignKeyName: "tasks_owner_id_fkey";
+            columns: ["owner_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
           {
             foreignKeyName: "tasks_project_id_fkey";
             columns: ["project_id"];

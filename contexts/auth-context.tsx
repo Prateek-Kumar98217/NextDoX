@@ -1,14 +1,12 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { Session, User } from "@supabase/supabase-js";
+import { User } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase/client";
 import { redirect } from "next/navigation";
-import { ProfileRow } from "@/types/profile.types";
-import { fetchUserProfile } from "@/actions/profile-actions";
 
 interface AuthContextType {
-  user: ProfileRow | User | null;
+  user: User | null;
   loading: boolean;
   signInWithEmailPassword: (email: string, password: string) => Promise<void>;
   signInWithGithub: () => Promise<void>;
@@ -29,7 +27,7 @@ export const useAuth = () => {
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<ProfileRow | User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -38,16 +36,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      await setExtendedUser(session);
+      setUser(session?.user ?? null);
       setLoading(false);
-    };
-
-    //Get the user information throught the user profile
-    const setExtendedUser = async (session: Session | null) => {
-      if (session?.user) {
-        const userProfile = await fetchUserProfile(session.user.id);
-        setUser(userProfile);
-      }
     };
 
     getSession();
@@ -56,7 +46,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setExtendedUser(session);
+      setUser(session?.user ?? null);
       setLoading(false);
     });
 

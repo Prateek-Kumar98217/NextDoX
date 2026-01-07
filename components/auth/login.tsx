@@ -39,7 +39,7 @@ export const LoginForm = () => {
 
   return (
     <main>
-      <form onSubmit={form.handleSubmit(onSubmit)} id="form-rhf-demo">
+      <form onSubmit={form.handleSubmit(onSubmit)} id="login-form">
         <FieldGroup>
           <Controller
             name="email"
@@ -85,7 +85,7 @@ export const LoginForm = () => {
         </FieldGroup>
       </form>
       <Field orientation="horizontal">
-        <Button type="submit" form="form-rhf-demo">
+        <Button type="submit" form="login-form">
           Sign In
         </Button>
       </Field>
