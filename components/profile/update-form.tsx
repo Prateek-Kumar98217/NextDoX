@@ -51,9 +51,8 @@ export const ProfileUpdateForm = () => {
   }, [profile, reset]);
 
   const onSubmit = async (data: z.infer<typeof profileUpdateFormSchema>) => {
-    if (user) {
-      await updateUserProfile(user.id, data);
-    }
+    if (!user) return;
+    await updateUserProfile(user.id, data);
   };
 
   if (!user || loading) return null; //for now no loading handling loading state

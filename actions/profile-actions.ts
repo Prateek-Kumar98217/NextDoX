@@ -30,9 +30,8 @@ export const updateUserProfile = async (
     .single();
   if (error) {
     console.error("Error updating user profile:", error);
-    return null;
+    return;
   }
-  return data as ProfileRow;
 };
 
 export const deleteUserProfile = async (userId: string) => {

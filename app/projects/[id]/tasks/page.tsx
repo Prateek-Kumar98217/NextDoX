@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Board } from "@/components/kanban/board";
 
 export default async function TasksPage({
   params,
@@ -7,9 +7,9 @@ export default async function TasksPage({
 }) {
   const { id } = await params;
   return (
-    <main>
-      <Link href={`/projects/${id}/canvas`}>Go to canvas</Link>
+    <main className="w-full h-full">
       <h1>Welcome to tasks for project: {id}</h1>
+      <Board />
     </main>
   );
 }
