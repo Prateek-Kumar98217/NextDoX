@@ -9,7 +9,7 @@ export const fetchTasksByProject = async (projectId: string) => {
     .from("tasks")
     .select("*")
     .eq("project_id", projectId)
-    .order("created_at", { ascending: false });
+    .order("rank", { ascending: true });
   if (error) {
     console.error("Error fetching tasks:", error);
     return [];
@@ -28,7 +28,6 @@ export const createTask = async (task: TaskInsert) => {
     console.error("Error creating task:", error);
     return null;
   }
-  return data as TaskRow;
 };
 
 export const updateTask = async (taskId: string, updates: TaskUpdate) => {
@@ -43,7 +42,6 @@ export const updateTask = async (taskId: string, updates: TaskUpdate) => {
     console.error("Error updating task:", error);
     return null;
   }
-  return data as TaskRow;
 };
 
 export const deleteTask = async (taskId: string) => {

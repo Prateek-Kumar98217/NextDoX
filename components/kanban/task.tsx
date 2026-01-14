@@ -1,9 +1,9 @@
-import { TaskType } from "@/types/board.types";
+import { TaskRow } from "@/types/task.types";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Trash2 } from "lucide-react";
 interface Props {
-  task: TaskType;
+  task: TaskRow;
 }
 
 export const Task = (props: Props) => {

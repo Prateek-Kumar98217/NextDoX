@@ -3,9 +3,10 @@ import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Task } from "./task";
 import { useMemo } from "react";
+import { TaskRow } from "@/types/task.types";
 interface Props {
   list: ListType;
-  tasks: TaskType[];
+  tasks: TaskRow[];
 }
 
 export const Column = (props: Props) => {

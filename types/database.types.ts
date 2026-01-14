@@ -121,39 +121,36 @@ export type Database = {
           commit_hash: string | null;
           completed_at: string | null;
           created_at: string;
-          description: string | null;
           id: string;
+          name: string;
           owner_id: string;
           project_id: string;
-          rank: number | null;
+          rank: number;
           status: string | null;
-          title: string;
           updated_at: string;
         };
         Insert: {
           commit_hash?: string | null;
           completed_at?: string | null;
           created_at?: string;
-          description?: string | null;
           id?: string;
+          name: string;
           owner_id?: string;
           project_id?: string;
-          rank?: number | null;
+          rank?: number;
           status?: string | null;
-          title: string;
           updated_at?: string;
         };
         Update: {
           commit_hash?: string | null;
           completed_at?: string | null;
           created_at?: string;
-          description?: string | null;
           id?: string;
+          name?: string;
           owner_id?: string;
           project_id?: string;
-          rank?: number | null;
+          rank?: number;
           status?: string | null;
-          title?: string;
           updated_at?: string;
         };
         Relationships: [

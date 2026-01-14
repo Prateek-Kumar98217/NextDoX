@@ -42,7 +42,6 @@ export const createTheme = async (theme: ThemeInsert) => {
     console.error("Error creating theme:", error);
     return null;
   }
-  return data as ThemeRow;
 };
 
 export const updateTheme = async (themeId: string, updates: ThemeUpdate) => {
@@ -57,7 +56,6 @@ export const updateTheme = async (themeId: string, updates: ThemeUpdate) => {
     console.error("Error updating theme:", error);
     return null;
   }
-  return data as ThemeRow;
 };
 
 export const deleteTheme = async (themeId: string) => {

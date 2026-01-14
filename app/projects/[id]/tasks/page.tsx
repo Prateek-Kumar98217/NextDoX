@@ -9,7 +9,7 @@ export default async function TasksPage({
   return (
     <main className="w-full h-full">
       <h1>Welcome to tasks for project: {id}</h1>
-      <Board />
+      <Board projectId={id} />
     </main>
   );
 }

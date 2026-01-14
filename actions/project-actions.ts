@@ -49,7 +49,6 @@ export const createProject = async (project: ProjectInsert) => {
     console.error("Error creating project:", error);
     return null;
   }
-  return data as ProjectRow;
 };
 
 export const updateProject = async (
@@ -67,7 +66,6 @@ export const updateProject = async (
     console.error("Error updating project:", error);
     return null;
   }
-  return data as ProjectRow;
 };
 
 export const deleteProject = async (projectId: string) => {
