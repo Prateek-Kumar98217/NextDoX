@@ -1,42 +1,34 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { AddNewProject } from "@/components/project/add-project";
 import { useAuth } from "@/contexts/auth-context";
 import { useUserProjects } from "@/hooks/project-hook";
 import Link from "next/link";
-import { useState } from "react";
 
 export default function ProjectsPage() {
   const { user } = useAuth();
   const { projectList, loading } = useUserProjects(user?.id ?? null);
-  const [create, setCreate] = useState(false);
   if (!user || loading) return null;
   return (
     <main>
       <section>
-        <Button
-          onClick={() => {
-            setCreate(true);
-          }}
-        >
-          New Project...
-        </Button>
+        <AddNewProject />
       </section>
-      <ul>
+      <div className="flex flex-col">
         {projectList.map((project) => {
           return (
-            <li key={project.id}>
+            <div key={project.id} className="gap-3 p-2">
               <Link
                 href={`/projects/${project.id}/tasks`}
-                className="flex justify-around items-center"
+                className="flex justify-between w-full"
               >
                 <div>{project.title}</div>
                 <div>{project.description}</div>
               </Link>
-            </li>
+            </div>
           );
         })}
-      </ul>
+      </div>
     </main>
   );
 }

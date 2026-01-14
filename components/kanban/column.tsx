@@ -1,17 +1,22 @@
-import { ListType, TaskType } from "@/types/board.types";
+import { ListType } from "@/types/board.types";
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Task } from "./task";
 import { useMemo } from "react";
 import { TaskRow } from "@/types/task.types";
+import { AddNewTask } from "./new-task";
+
 interface Props {
   list: ListType;
   tasks: TaskRow[];
+  projectId: string;
+  onDelete: (id: string) => void;
 }
 
 export const Column = (props: Props) => {
-  const { list, tasks } = props;
+  const { list, tasks, projectId, onDelete } = props;
   const task_ids = useMemo(() => tasks.map((task) => task.id), [tasks]);
+
   const {
     setNodeRef,
     attributes,
@@ -37,28 +42,41 @@ export const Column = (props: Props) => {
       <div
         ref={setNodeRef}
         style={style}
-        id="overlay"
-        className="bg-red-500 min-w-2xs min-h-36"
+        className="flex h-125 w-87.5 shrink-0 flex-col rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 opacity-60"
       ></div>
     );
   }
+
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-red-500 min-w-2xs min-h-36"
+      className="flex h-150 w-87.5 shrink-0 flex-col rounded-xl bg-gray-100 shadow-sm"
     >
-      <div {...attributes} {...listeners}>
-        {list.title}
+      <div
+        {...attributes}
+        {...listeners}
+        className="flex cursor-grab items-center justify-between p-4 text-sm font-bold text-gray-700 active:cursor-grabbing"
+      >
+        <div className="flex items-center gap-2">
+          {list.title}
+          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gray-200 text-xs text-gray-500">
+            {tasks.length}
+          </span>
+        </div>
       </div>
-      <div id="task-list">
+
+      <div className="flex flex-1 flex-col gap-3 overflow-y-auto p-2">
         <SortableContext items={task_ids}>
           {tasks.map((task) => (
-            <Task key={task.id} task={task} />
+            <Task key={task.id} task={task} onDelete={onDelete} />
           ))}
         </SortableContext>
       </div>
-      <div id="footer"></div>
+
+      <div className="p-2">
+        <AddNewTask status={list.title} projectId={projectId} />
+      </div>
     </div>
   );
 };

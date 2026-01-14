@@ -8,7 +8,7 @@ export default async function TasksPage({
   const { id } = await params;
   return (
     <main className="w-full h-full">
-      <h1>Welcome to tasks for project: {id}</h1>
+      <h1>Tasks</h1>
       <Board projectId={id} />
     </main>
   );

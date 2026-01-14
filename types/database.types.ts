@@ -118,49 +118,33 @@ export type Database = {
       };
       tasks: {
         Row: {
-          commit_hash: string | null;
-          completed_at: string | null;
           created_at: string;
           id: string;
           name: string;
-          owner_id: string;
           project_id: string;
           rank: number;
           status: string | null;
           updated_at: string;
         };
         Insert: {
-          commit_hash?: string | null;
-          completed_at?: string | null;
           created_at?: string;
           id?: string;
           name: string;
-          owner_id?: string;
           project_id?: string;
-          rank?: number;
+          rank?: number | null;
           status?: string | null;
           updated_at?: string;
         };
         Update: {
-          commit_hash?: string | null;
-          completed_at?: string | null;
           created_at?: string;
           id?: string;
           name?: string;
-          owner_id?: string;
           project_id?: string;
-          rank?: number;
+          rank?: number | null;
           status?: string | null;
           updated_at?: string;
         };
         Relationships: [
-          {
-            foreignKeyName: "tasks_owner_id_fkey";
-            columns: ["owner_id"];
-            isOneToOne: false;
-            referencedRelation: "profiles";
-            referencedColumns: ["id"];
-          },
           {
             foreignKeyName: "tasks_project_id_fkey";
             columns: ["project_id"];

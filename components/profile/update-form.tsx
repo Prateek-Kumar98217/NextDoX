@@ -68,14 +68,14 @@ export const ProfileUpdateForm = () => {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="form-rhf-demo-title">
+                    <FieldLabel htmlFor="profile-update-title">
                       Avatar
                     </FieldLabel>
                     <Input
                       {...field}
-                      id="form-rhf-demo-title"
+                      id="profile-update-title"
                       aria-invalid={fieldState.invalid}
-                      placeholder="Login button not working on mobile"
+                      placeholder="placeholder"
                       autoComplete="off"
                     />
                     {fieldState.invalid && (
@@ -92,12 +92,12 @@ export const ProfileUpdateForm = () => {
                   control={form.control}
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor="form-rhf-demo-title">
+                      <FieldLabel htmlFor="profile-form-name">
                         Username
                       </FieldLabel>
                       <Input
                         {...field}
-                        id="form-rhf-demo-title"
+                        id="profile-form-name"
                         aria-invalid={fieldState.invalid}
                         placeholder="Login button not working on mobile"
                         autoComplete="off"
@@ -115,14 +115,14 @@ export const ProfileUpdateForm = () => {
                   control={form.control}
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor="form-rhf-demo-title">
+                      <FieldLabel htmlFor="profile-form-email">
                         Email
                       </FieldLabel>
                       <Input
                         {...field}
-                        id="form-rhf-demo-title"
+                        id="profile-form-email"
                         aria-invalid={fieldState.invalid}
-                        placeholder="Login button not working on mobile"
+                        placeholder="placeholder"
                         autoComplete="off"
                       />
                       {fieldState.invalid && (
@@ -138,14 +138,14 @@ export const ProfileUpdateForm = () => {
                   control={form.control}
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor="form-rhf-demo-title">
+                      <FieldLabel htmlFor="profile-form-type">
                         Developer Type
                       </FieldLabel>
                       <Input
                         {...field}
-                        id="form-rhf-demo-title"
+                        id="profile-form-type"
                         aria-invalid={fieldState.invalid}
-                        placeholder="Login button not working on mobile"
+                        placeholder="placeholder"
                         autoComplete="off"
                       />
                       {fieldState.invalid && (
