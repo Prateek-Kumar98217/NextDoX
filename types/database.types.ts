@@ -75,6 +75,35 @@ export type Database = {
         };
         Relationships: [];
       };
+      project_canvas: {
+        Row: {
+          data: Json | null;
+          id: number;
+          project_id: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          data?: Json | null;
+          id?: number;
+          project_id?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          data?: Json | null;
+          id?: number;
+          project_id?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "project_canvas_project_id_fkey";
+            columns: ["project_id"];
+            isOneToOne: false;
+            referencedRelation: "projects";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
       projects: {
         Row: {
           closed_at: string | null;
@@ -131,7 +160,7 @@ export type Database = {
           id?: string;
           name: string;
           project_id?: string;
-          rank?: number | null;
+          rank?: number;
           status?: string | null;
           updated_at?: string;
         };
@@ -140,7 +169,7 @@ export type Database = {
           id?: string;
           name?: string;
           project_id?: string;
-          rank?: number | null;
+          rank?: number;
           status?: string | null;
           updated_at?: string;
         };
