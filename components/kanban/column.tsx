@@ -11,10 +11,11 @@ interface Props {
   tasks: TaskRow[];
   projectId: string;
   onDelete: (id: string) => void;
+  onTaskUpdate: (id: string, name: string) => void;
 }
 
 export const Column = (props: Props) => {
-  const { list, tasks, projectId, onDelete } = props;
+  const { list, tasks, projectId, onDelete, onTaskUpdate } = props;
   const task_ids = useMemo(() => tasks.map((task) => task.id), [tasks]);
 
   const {
@@ -69,7 +70,12 @@ export const Column = (props: Props) => {
       <div className="flex flex-1 flex-col gap-3 overflow-y-auto p-2">
         <SortableContext items={task_ids}>
           {tasks.map((task) => (
-            <Task key={task.id} task={task} onDelete={onDelete} />
+            <Task
+              key={task.id}
+              task={task}
+              onDelete={onDelete}
+              onUpdate={onTaskUpdate}
+            />
           ))}
         </SortableContext>
       </div>

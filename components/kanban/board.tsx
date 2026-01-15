@@ -180,6 +180,13 @@ export const Board = ({ projectId }: Props) => {
   const handleDelete = (id: string) => {
     setTempTasks((prev) => prev.filter((t) => t.id != id));
   };
+  const handleTaskUpdate = (id: string, name: string) => {
+    const newTasks = tempTasks.map((task) => {
+      if (task.id !== id) return task;
+      return { ...task, name: name };
+    });
+    setTempTasks(newTasks);
+  };
 
   if (loading)
     return (
@@ -203,6 +210,7 @@ export const Board = ({ projectId }: Props) => {
               list={list}
               projectId={projectId}
               onDelete={handleDelete}
+              onTaskUpdate={handleTaskUpdate}
               // Pass tasks derived directly from state (already ordered by onDragOver)
               tasks={tempTasks.filter((task) => task.status === list.title)}
             />
@@ -217,12 +225,19 @@ export const Board = ({ projectId }: Props) => {
                   list={activeList}
                   projectId={projectId}
                   onDelete={handleDelete}
+                  onTaskUpdate={handleTaskUpdate}
                   tasks={tempTasks.filter(
                     (task) => task.status === activeList.title
                   )}
                 />
               )}
-              {activeTask && <Task task={activeTask} onDelete={handleDelete} />}
+              {activeTask && (
+                <Task
+                  task={activeTask}
+                  onDelete={handleDelete}
+                  onUpdate={handleTaskUpdate}
+                />
+              )}
             </DragOverlay>,
             document.body
           )}
