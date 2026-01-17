@@ -43,31 +43,27 @@ export const Column = (props: Props) => {
       <div
         ref={setNodeRef}
         style={style}
-        className="flex h-125 w-87.5 shrink-0 flex-col rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 opacity-60"
+        className="glass-card rounded-2xl p-4 opacity-60 column-tasks"
       ></div>
     );
   }
 
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      className="flex h-150 w-87.5 shrink-0 flex-col rounded-xl bg-gray-100 shadow-sm"
-    >
+    <div ref={setNodeRef} style={style} className="glass-card rounded-2xl p-4 ">
       <div
         {...attributes}
         {...listeners}
-        className="flex cursor-grab items-center justify-between p-4 text-sm font-bold text-gray-700 active:cursor-grabbing"
+        className="flex cursor-grab items-center justify-between mb-4 text-sm font-bold text-gray-700 active:cursor-grabbing"
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 font-semibold">
           {list.title}
-          <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gray-200 text-xs text-gray-500">
+          <span className="text-muted-foreground bg-secondary px-2 py-1 rounded-full">
             {tasks.length}
           </span>
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col gap-3 overflow-y-auto p-2">
+      <div className="column-tasks min-h-50 min-w-76 space-y-3 p-2 rounded-xl transition-colors duration-200">
         <SortableContext items={task_ids}>
           {tasks.map((task) => (
             <Task

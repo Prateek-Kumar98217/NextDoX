@@ -11,7 +11,8 @@ import {
 } from "@dnd-kit/core";
 import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { createPortal } from "react-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { gsap } from "gsap";
 
 import { Column } from "./column";
 import { Task } from "./task";
@@ -20,6 +21,7 @@ import { ListType } from "@/types/board.types";
 import { TaskRow } from "@/types/task.types";
 import { useProjectTasks } from "@/hooks/task-hook";
 import { updateTask } from "@/actions/task-actions";
+import { OpenCanvas } from "../canvas/open-canvas";
 
 interface Props {
   projectId: string;
@@ -36,6 +38,29 @@ export const Board = ({ projectId }: Props) => {
   const [activeTask, setActiveTask] = useState<TaskRow | null>(null);
   const [mounted, setMounted] = useState(false);
 
+  const pageRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".page-header", {
+        y: 30,
+        opacity: 0,
+        duration: 0.6,
+        ease: "power3.out",
+      });
+
+      gsap.from(".kanban-container", {
+        y: 40,
+        opacity: 0,
+        duration: 0.6,
+        delay: 0.2,
+        ease: "power2.out",
+      });
+    }, pageRef);
+
+    return () => ctx.revert();
+  }, []);
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -51,7 +76,7 @@ export const Board = ({ projectId }: Props) => {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 5 },
-    })
+    }),
   );
 
   const onDragStart = (event: DragStartEvent) => {
@@ -149,8 +174,8 @@ export const Board = ({ projectId }: Props) => {
       ) {
         setTempTasks((prevTasks) =>
           prevTasks.map((t) =>
-            t.id === activeId ? { ...t, rank: newRank } : t
-          )
+            t.id === activeId ? { ...t, rank: newRank } : t,
+          ),
         );
 
         await updateTask(task.id, {
@@ -196,52 +221,67 @@ export const Board = ({ projectId }: Props) => {
     );
 
   return (
-    <DndContext
-      sensors={sensors}
-      onDragStart={onDragStart}
-      onDragEnd={onDragEnd}
-      onDragOver={onDragOver}
-    >
-      <div className="flex h-full w-full items-start gap-4 overflow-x-auto p-4">
-        <SortableContext items={list_ids}>
-          {lists.map((list) => (
-            <Column
-              key={list.id}
-              list={list}
-              projectId={projectId}
-              onDelete={handleDelete}
-              onTaskUpdate={handleTaskUpdate}
-              // Pass tasks derived directly from state (already ordered by onDragOver)
-              tasks={tempTasks.filter((task) => task.status === list.title)}
-            />
-          ))}
-        </SortableContext>
+    <div ref={pageRef} className="min-h-screen p-6 lg:p-10">
+      <div className="max-w-full mx-auto">
+        {/* Header */}
+        <div className="page-header flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+          <div>
+            <h1 className="text-3xl font-bold">Tasks</h1>
+            <p className="text-muted-foreground mt-1">
+              Drag and drop tasks to organize your workflow
+            </p>
+          </div>
+        </div>
 
-        {mounted &&
-          createPortal(
-            <DragOverlay>
-              {activeList && (
+        <div className="kanban-container"></div>
+        <DndContext
+          sensors={sensors}
+          onDragStart={onDragStart}
+          onDragEnd={onDragEnd}
+          onDragOver={onDragOver}
+        >
+          <div className="flex gap-6 overflow-x-auto pb-4 no-scrollbar">
+            <SortableContext items={list_ids}>
+              {lists.map((list) => (
                 <Column
-                  list={activeList}
+                  key={list.id}
+                  list={list}
                   projectId={projectId}
                   onDelete={handleDelete}
                   onTaskUpdate={handleTaskUpdate}
-                  tasks={tempTasks.filter(
-                    (task) => task.status === activeList.title
+                  tasks={tempTasks.filter((task) => task.status === list.title)}
+                />
+              ))}
+            </SortableContext>
+
+            {mounted &&
+              createPortal(
+                <DragOverlay>
+                  {activeList && (
+                    <Column
+                      list={activeList}
+                      projectId={projectId}
+                      onDelete={handleDelete}
+                      onTaskUpdate={handleTaskUpdate}
+                      tasks={tempTasks.filter(
+                        (task) => task.status === activeList.title,
+                      )}
+                    />
                   )}
-                />
+                  {activeTask && (
+                    <Task
+                      task={activeTask}
+                      onDelete={handleDelete}
+                      onUpdate={handleTaskUpdate}
+                    />
+                  )}
+                </DragOverlay>,
+                document.body,
               )}
-              {activeTask && (
-                <Task
-                  task={activeTask}
-                  onDelete={handleDelete}
-                  onUpdate={handleTaskUpdate}
-                />
-              )}
-            </DragOverlay>,
-            document.body
-          )}
+          </div>
+        </DndContext>
       </div>
-    </DndContext>
+      <OpenCanvas projectId={projectId} />
+    </div>
   );
 };

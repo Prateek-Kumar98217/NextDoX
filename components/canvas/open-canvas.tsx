@@ -23,13 +23,11 @@ export const OpenCanvas = ({ projectId }: Props) => {
   const canvasRef = useRef<CanvasRef>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [loading, setLoading] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [initialData, setInitialData] = useState<any>(null);
 
   useEffect(() => {
     if (isOpen) {
-      setLoading(true);
       const loadInitialData = async () => {
         const data = await loadCanvas(projectId);
         if (data) setInitialData(data);

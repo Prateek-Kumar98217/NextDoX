@@ -1,4 +1,3 @@
-import { OpenCanvas } from "@/components/canvas/open-canvas";
 import { Board } from "@/components/kanban/board";
 
 export default async function TasksPage({
@@ -7,11 +6,10 @@ export default async function TasksPage({
   params: { id: string };
 }) {
   const { id } = await params;
+
   return (
-    <main className="w-full h-full">
-      <h1>Tasks</h1>
+    <div className="flex justify-center items-center w-[80vw]">
       <Board projectId={id} />
-      <OpenCanvas projectId={id} />
-    </main>
+    </div>
   );
 }
