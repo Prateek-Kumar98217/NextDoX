@@ -3,12 +3,14 @@
 import { useRef, useEffect } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
+import { useAuth } from "@/contexts/auth-context";
 import { ArrowRight, Zap, Shield, Users, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function LandingPageContent() {
   const heroRef = useRef<HTMLDivElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -33,16 +35,6 @@ export default function LandingPageContent() {
         opacity: 0,
         duration: 0.8,
         delay: 0.4,
-        ease: "power3.out",
-      });
-
-      // Feature cards animation
-      gsap.from(".feature-card", {
-        y: 60,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        delay: 0.6,
         ease: "power3.out",
       });
     }, heroRef);
@@ -71,13 +63,11 @@ export default function LandingPageContent() {
 
   return (
     <div ref={heroRef} className="min-h-screen relative overflow-hidden">
-      {/* Header */}
       <header className="relative z-10 px-6 py-6">
         <nav className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <span className="text-xl font-semibold">NextDoX</span>
           </div>
-
           <div className="flex items-center gap-4">
             <Link href="/auth/login">
               <Button
@@ -95,8 +85,6 @@ export default function LandingPageContent() {
           </div>
         </nav>
       </header>
-
-      {/* Hero Section */}
       <section className="relative z-10 px-6 pt-20 pb-32 lg:pt-32">
         <div className="max-w-7xl mx-auto text-center">
           <h1 className="hero-title text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight mb-6">
@@ -104,20 +92,18 @@ export default function LandingPageContent() {
             <br />
             <span className="text-primary text-glow">Like Never Before</span>
           </h1>
-
           <p className="hero-subtitle text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 text-pretty">
             Streamline your workflow with our intuitive project management
             platform. Track tasks, collaborate with your team, and deliver
             results faster.
           </p>
-
           <div className="hero-buttons flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link href="/signup">
               <Button size="lg" className="gap-2 px-8 glow-border">
                 Start Free Trial <ArrowRight className="w-5 h-5" />
               </Button>
             </Link>
-            <Link href="/login">
+            <Link href="/auth/login">
               <Button
                 size="lg"
                 variant="outline"
@@ -129,8 +115,6 @@ export default function LandingPageContent() {
           </div>
         </div>
       </section>
-
-      {/* Features Section */}
       <section ref={featuresRef} className="relative z-10 px-6 pb-32">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-3 gap-6">
@@ -149,11 +133,9 @@ export default function LandingPageContent() {
           </div>
         </div>
       </section>
-
-      {/* Footer */}
       <footer className="relative z-10 px-6 py-8 border-t border-border/50">
         <div className="max-w-7xl mx-auto text-center text-muted-foreground text-sm">
-          <p>© 2026 TaskFlow. All rights reserved.</p>
+          <p>© 2026 NextDoX. All rights reserved.</p>
         </div>
       </footer>
     </div>

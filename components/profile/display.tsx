@@ -1,7 +1,3 @@
-"use client";
-
-import { useRef, useEffect } from "react";
-import { gsap } from "gsap";
 import { MapPin, Mail, Calendar, Edit2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -13,54 +9,6 @@ import { useAuth } from "@/contexts/auth-context";
 export default function Profile() {
   const { user } = useAuth();
   const { profile, loading } = useUserProfile(user?.id ?? null);
-  const pageRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".profile-header", {
-        y: 40,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      });
-
-      gsap.from(".profile-avatar", {
-        scale: 0.8,
-        opacity: 0,
-        duration: 0.6,
-        delay: 0.2,
-        ease: "back.out(1.7)",
-      });
-
-      gsap.from(".profile-info", {
-        y: 20,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        delay: 0.4,
-        ease: "power2.out",
-      });
-
-      gsap.from(".skills-section", {
-        y: 30,
-        opacity: 0,
-        duration: 0.6,
-        delay: 0.6,
-        ease: "power2.out",
-      });
-
-      gsap.from(".stats-card", {
-        y: 20,
-        opacity: 0,
-        duration: 0.5,
-        stagger: 0.1,
-        delay: 0.8,
-        ease: "power2.out",
-      });
-    }, pageRef);
-
-    return () => ctx.revert();
-  }, []);
 
   const stats = [
     { label: "Projects", value: "12" },
@@ -71,7 +19,7 @@ export default function Profile() {
   if (!user || loading) return null;
 
   return (
-    <div ref={pageRef} className="min-h-screen p-6 lg:p-10">
+    <div className="min-h-screen p-6 lg:p-10">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="profile-header glass-card rounded-2xl p-8 mb-8">
